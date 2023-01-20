@@ -45,102 +45,102 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+//        NavigationUI.setupWithNavController(navigationView, navController);
 
-//        //adding the navigation manually
-//        getSupportFragmentManager().popBackStack();
-//        FragmentTransaction trans =getSupportFragmentManager().beginTransaction();
-//
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                int menuID =item.getItemId();
-//                getSupportFragmentManager().popBackStack();
-//                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-//
-//                if(menuID==R.id.nav_home){
+        //adding the navigation manually
+        getSupportFragmentManager().popBackStack();
+        FragmentTransaction trans =getSupportFragmentManager().beginTransaction();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int menuID =item.getItemId();
+                getSupportFragmentManager().popBackStack();
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+
+                if(menuID==R.id.nav_home){
+                    HomeFragment fragment =new HomeFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
+                else if(menuID ==R.id.nav_newPackage){
+                    NewPackageFragment fragment =new NewPackageFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
+//                else if(menuID ==R.id.nav_home){
 //                    HomeFragment fragment =new HomeFragment();
 //                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
 //                }
-//                else if(menuID ==R.id.nav_newPackage){
-//                    NewPackageFragment fragment =new NewPackageFragment();
+//                else if(menuID ==R.id.nav_profile){
+//                    ProfileFragment fragment =new ProfileFragment();
 //                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
 //                }
-////                else if(menuID ==R.id.nav_home){
-////                    HomeFragment fragment =new HomeFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////                else if(menuID ==R.id.nav_profile){
-////                    ProfileFragment fragment =new ProfileFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////                else if(menuID ==R.id.nav_allPosts){
-////                    AllPostsFragment fragment =new AllPostsFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////                else if(menuID ==R.id.nav_add){
-////                    AddpostFragment fragment =new AddpostFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////                else if(menuID ==R.id.nav_myPosts){
-////                    MyPostsFragment fragment =new MyPostsFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////                else if(menuID ==R.id.nav_myJobs){
-////                    MyJobsFragment fragment =new MyJobsFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////                else if(menuID ==R.id.nav_floorPrice){
-////                    FloorPriceFragment fragment =new FloorPriceFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////                else if(menuID ==R.id.nav_adminViewUsers){
-////                    AdminViewUsersFragment fragment =new AdminViewUsersFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                }
-////
-////                else if (menuID==R.id.nav_exit){
-////                    finish();
-////
-////                }
-////                else if (menuID==R.id.nav_logout){
-////                    LoginFragment fragment = new LoginFragment();
-////                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-////                    trans.addToBackStack(null);
-////
-////                    preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
-////                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_TYPE);
-////                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
-////
-////                    Menu menu1 = navigationView.getMenu();
-////                    MenuItem item1=menu1.findItem(R.id.nav_allPosts);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_home);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_add);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_myPosts);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_myJobs);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_logout);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_register);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_floorPrice);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_profile);
-////                    item1.setVisible(false);
-////                    item1=menu1.findItem(R.id.nav_adminViewUsers);
-////                    item1.setVisible(false);
-////
-////                }
-//                trans.addToBackStack(null);
-//                trans.commit();
-//                drawer.closeDrawer(GravityCompat.START);
-//                return false;
-//            }
-//        });
+//                else if(menuID ==R.id.nav_allPosts){
+//                    AllPostsFragment fragment =new AllPostsFragment();
+//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+//                }
+//                else if(menuID ==R.id.nav_add){
+//                    AddpostFragment fragment =new AddpostFragment();
+//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+//                }
+//                else if(menuID ==R.id.nav_myPosts){
+//                    MyPostsFragment fragment =new MyPostsFragment();
+//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+//                }
+//                else if(menuID ==R.id.nav_myJobs){
+//                    MyJobsFragment fragment =new MyJobsFragment();
+//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+//                }
+//                else if(menuID ==R.id.nav_floorPrice){
+//                    FloorPriceFragment fragment =new FloorPriceFragment();
+//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+//                }
+//                else if(menuID ==R.id.nav_adminViewUsers){
+//                    AdminViewUsersFragment fragment =new AdminViewUsersFragment();
+//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+//                }
+//
+//                else if (menuID==R.id.nav_exit){
+//                    finish();
+//
+//                }
+//                else if (menuID==R.id.nav_logout){
+//                    LoginFragment fragment = new LoginFragment();
+//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+//                    trans.addToBackStack(null);
+//
+//                    preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
+//                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_TYPE);
+//                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
+//
+//                    Menu menu1 = navigationView.getMenu();
+//                    MenuItem item1=menu1.findItem(R.id.nav_allPosts);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_home);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_add);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_myPosts);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_myJobs);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_logout);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_register);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_floorPrice);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_profile);
+//                    item1.setVisible(false);
+//                    item1=menu1.findItem(R.id.nav_adminViewUsers);
+//                    item1.setVisible(false);
+//
+//                }
+                trans.addToBackStack(null);
+                trans.commit();
+                drawer.closeDrawer(GravityCompat.START);
+                return false;
+            }
+        });
     }
 
     @Override

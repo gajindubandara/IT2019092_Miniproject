@@ -1,7 +1,7 @@
 package com.example.it2019092_miniproject.ui.model;
 
 public class Package {
-    private String jobID;
+    private String packageID;
     private String place;
     private String date;
     private String price;
@@ -13,8 +13,8 @@ public class Package {
     public Package() {
     }
 
-    public Package(String jobID, String place, String date, String price, String non, String nod, String des, String coverImg) {
-        this.jobID = jobID;
+    public Package(String packageID, String place, String date, String price, String non, String nod, String des, String coverImg) {
+        this.packageID = packageID;
         this.place = place;
         this.date = date;
         this.price = price;
@@ -24,12 +24,12 @@ public class Package {
         this.coverImg = coverImg;
     }
 
-    public String getJobID() {
-        return jobID;
+    public String getPackageID() {
+        return packageID;
     }
 
-    public void setJobID(String jobID) {
-        this.jobID = jobID;
+    public void setPackageID(String packageID) {
+        this.packageID = packageID;
     }
 
     public String getPlace() {

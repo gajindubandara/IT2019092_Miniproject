@@ -60,7 +60,6 @@ public class NewPackageFragment extends Fragment {
     CardView btnCreate;
     ImageView Cimg;
     EditText Date, Place, NoD, NoN, Des,Price;
-//    Calendar calendar = Calendar.getInstance();
     Bitmap pic;
     boolean CPicCheck= false;
     DatabaseReference referance;
@@ -74,7 +73,7 @@ public class NewPackageFragment extends Fragment {
     int month;
     int dayOfMonth;
     Calendar calendar;
-//    String key;
+
 
     public static NewPackageFragment newInstance() {
         return new NewPackageFragment();
@@ -223,18 +222,9 @@ public class NewPackageFragment extends Fragment {
                                             @Override
                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                                 StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
-//                                                Task<Uri> downloadUrlR = rRef.getDownloadUrl();
+
                                                 Task<Uri> downloadUrlCoverImg = cRef.getDownloadUrl();
 
-//                                                downloadUrlR.addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                                    @Override
-//                                                    public void onSuccess(Uri uri) {
-//                                                        imageRefR = uri.toString();
-//                                                        referance = rootNode.getReference("Job");
-//                                                        referance.child(key).child("imageR").setValue(imageRefR);
-//                                                        progressDialog.dismiss();
-//                                                    }
-//                                                });
                                                 downloadUrlCoverImg.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
                                                     public void onSuccess(Uri uri) {

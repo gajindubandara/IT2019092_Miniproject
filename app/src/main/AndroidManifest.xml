@@ -14,6 +14,11 @@
         android:theme="@style/Theme.IT2019092_Miniproject"
         tools:targetApi="31">
         <activity
+            android:name=".PackDetailsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_pack_details"
+            android:theme="@style/Theme.IT2019092_Miniproject.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

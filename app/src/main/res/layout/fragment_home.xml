@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:background="@drawable/bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,8 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="Find Your"
+            android:layout_marginTop="44dp"
+            android:text="Go Where You Feel "
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,11 +35,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Next Destination"
+            android:text="Most Alive..."
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.825"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/main" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -51,11 +61,13 @@
         android:layout_marginTop="8dp"
         android:text="Our Packages"
         android:textColor="@android:color/background_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recent_recycler"
+        android:id="@+id/package_recycler"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -71,8 +83,10 @@
         android:layout_marginTop="16dp"
         android:text="Top Places"
         android:textColor="@android:color/background_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recent_recycler" />
+        app:layout_constraintTop_toBottomOf="@+id/package_recycler" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/top_places_recycler"
