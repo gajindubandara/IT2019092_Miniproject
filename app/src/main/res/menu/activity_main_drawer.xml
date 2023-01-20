@@ -13,5 +13,13 @@
             android:id="@+id/nav_newPackage"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="new" />
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="login" />
+        <item
+            android:id="@+id/nav_register"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="reg" />
     </group>
 </menu>

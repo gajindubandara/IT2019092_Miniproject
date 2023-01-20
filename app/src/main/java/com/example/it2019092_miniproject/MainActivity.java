@@ -6,6 +6,8 @@ import android.view.Menu;
 
 import com.example.it2019092_miniproject.databinding.ActivityMainBinding;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
+import com.example.it2019092_miniproject.ui.login.LoginFragment;
+import com.example.it2019092_miniproject.ui.register.RegisterFragment;
 import com.example.it2019092_miniproject.ui.tour_package.NewPackageFragment;
 import com.google.android.material.navigation.NavigationView;
 
@@ -63,10 +65,14 @@ public class MainActivity extends AppCompatActivity {
                     NewPackageFragment fragment =new NewPackageFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
-//                else if(menuID ==R.id.nav_home){
-//                    HomeFragment fragment =new HomeFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
+                else if(menuID ==R.id.nav_login){
+                    LoginFragment fragment =new LoginFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
+                else if(menuID ==R.id.nav_register){
+                    RegisterFragment fragment =new RegisterFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
 //                else if(menuID ==R.id.nav_profile){
 //                    ProfileFragment fragment =new ProfileFragment();
 //                    trans.replace(R.id.nav_host_fragment_content_main,fragment);

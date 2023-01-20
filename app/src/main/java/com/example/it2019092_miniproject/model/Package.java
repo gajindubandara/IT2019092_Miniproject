@@ -1,4 +1,4 @@
-package com.example.it2019092_miniproject.ui.model;
+package com.example.it2019092_miniproject.model;
 
 public class Package {
     private String packageID;

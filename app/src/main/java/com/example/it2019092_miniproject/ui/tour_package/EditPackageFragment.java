@@ -35,7 +35,7 @@ import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
-import com.example.it2019092_miniproject.ui.model.Package;
+import com.example.it2019092_miniproject.model.Package;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;

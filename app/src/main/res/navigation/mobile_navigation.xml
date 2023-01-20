@@ -16,4 +16,14 @@
         android:name="com.example.it2019092_miniproject.ui.tour_package.NewPackageFragment"
         android:label="New Package"
         tools:layout="@layout/fragment_new_package" />
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.it2019092_miniproject.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.example.it2019092_miniproject.ui.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>
