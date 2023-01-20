@@ -31,34 +31,25 @@
         app:layout_constraintTop_toBottomOf="@+id/place_image" />
 
     <TextView
-        android:id="@+id/country_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="India"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="@+id/place_name"
-        app:layout_constraintTop_toBottomOf="@+id/place_name" />
-
-    <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:layout_marginBottom="16dp"
         android:text="From $200"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/country_name"
-        app:layout_constraintTop_toBottomOf="@+id/country_name" />
+        app:layout_constraintStart_toStartOf="@+id/place_name"
+        app:layout_constraintTop_toBottomOf="@+id/place_name" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/packDetails"
         android:layout_width="39dp"
         android:layout_height="37dp"
         android:layout_marginTop="28dp"
+        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="@android:color/system_neutral2_200"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.874"
         app:layout_constraintStart_toEndOf="@+id/price"

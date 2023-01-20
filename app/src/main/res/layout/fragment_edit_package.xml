@@ -42,7 +42,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_weight="40"
                     android:fontFamily="sans-serif"
-                    android:text="Add New Tour Package"
+                    android:text="Edit Tour Package"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     android:textStyle="bold">
@@ -191,7 +191,10 @@
                     </LinearLayout>
 
 
+
+
                     <LinearLayout
+                        android:id="@+id/img"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -237,10 +240,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal|center_vertical"
-                                    android:layout_weight="1"
                                     android:paddingLeft="3dp"
-                                    android:paddingRight="3dp"
-                                    app:srcCompat="@drawable/ic_imgadd" />
+                                    android:paddingRight="3dp" />
                             </FrameLayout>
 
                         </LinearLayout>
@@ -254,7 +255,7 @@
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/btnCreate"
+                            android:id="@+id/btnUpdate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -276,7 +277,7 @@
                                     android:id="@+id/imageView55"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:background="@drawable/create" />
+                                    android:background="@drawable/update" />
 
                                 <TextView
                                     android:id="@+id/textView105"
@@ -286,7 +287,7 @@
                                     android:layout_marginStart="5dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
-                                    android:text="Create Post"
+                                    android:text="Update"
                                     android:textColor="@color/black"
                                     android:textStyle="bold" />
 

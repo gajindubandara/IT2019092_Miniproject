@@ -2,12 +2,11 @@ package com.example.it2019092_miniproject;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 
+import com.example.it2019092_miniproject.databinding.ActivityMainBinding;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
-import com.example.it2019092_miniproject.ui.new_package.NewPackageFragment;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.it2019092_miniproject.ui.tour_package.NewPackageFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -19,8 +18,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.it2019092_miniproject.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 

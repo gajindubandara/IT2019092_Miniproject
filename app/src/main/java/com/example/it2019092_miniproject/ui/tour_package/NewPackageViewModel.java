@@ -1,4 +1,4 @@
-package com.example.it2019092_miniproject.ui.new_package;
+package com.example.it2019092_miniproject.ui.tour_package;
 
 import androidx.lifecycle.ViewModel;
 

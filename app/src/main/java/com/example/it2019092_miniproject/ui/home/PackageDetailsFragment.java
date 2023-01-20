@@ -1,5 +1,7 @@
 package com.example.it2019092_miniproject.ui.home;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -15,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
+import com.example.it2019092_miniproject.ui.tour_package.EditPackageFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +34,7 @@ public class PackageDetailsFragment extends Fragment {
     private PackageDetailsViewModel mViewModel;
     TextView place,price,des,date;
     ImageView coverImg;
+    CardView book,edit;
 
     public static PackageDetailsFragment newInstance() {
         return new PackageDetailsFragment();
@@ -47,6 +52,8 @@ public class PackageDetailsFragment extends Fragment {
         price =view.findViewById(R.id.packPrice);
         date =view.findViewById(R.id.packDate);
         des =view.findViewById(R.id.packDes);
+        book=view.findViewById(R.id.btnBook);
+        edit=view.findViewById(R.id.btnEdit);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Package");
         Query checkUser = reference.orderByChild("packageID").equalTo(packID);
@@ -70,19 +77,20 @@ public class PackageDetailsFragment extends Fragment {
                     price.setText("Rs. "+snapshot.child(packID).child("price").getValue(String.class)+".00/-");
                     des.setText(snapshot.child(packID).child("des").getValue(String.class));
                     place.setText(snapshot.child(packID).child("place").getValue(String.class));
-//                    No.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
-//                    NoBR.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
-//                    RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
-//                    BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
-//                    viewUserID =snapshot.child(jobID).child("user").getValue(String.class);
-//                    contractor =snapshot.child(jobID).child("contractor").getValue(String.class);
 
-//                    if(status==1) {
-//                        btnGet.setVisibility(view.VISIBLE);
-//
-//                    }else{
-//                        btnViewCon.setVisibility(view.VISIBLE);
-//                    }
+                    edit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+                            EditPackageFragment fragment = new EditPackageFragment();
+                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                            trans.addToBackStack(null);
+                            trans.detach(fragment);
+                            trans.attach(fragment);
+                            trans.commit();
+                        }
+                    });
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(),"no data",Toast.LENGTH_LONG).show();
