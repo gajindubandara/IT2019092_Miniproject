@@ -64,8 +64,9 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         holder.name.setText(pack.getPlace());
         holder.price.setText("Rs."+pack.getPrice()+".00/-");
         String url =pack.getCoverImg();
-        Picasso.get().load(url).placeholder(R.drawable.progress_animation).error(R.drawable.try_later).into(holder.coverImg);
-
+        Picasso.get().load(url).placeholder(R.drawable.progress_animation).resize(500, 500).
+                centerCrop().error(R.drawable.try_later).into(holder.coverImg);
+//        Picasso.with(context).load(url)into(imageView);
         holder.packDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

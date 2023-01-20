@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
@@ -30,8 +31,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
+import com.example.it2019092_miniproject.ui.home.HomeFragment;
 import com.example.it2019092_miniproject.ui.model.Package;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -59,7 +62,7 @@ public class EditPackageFragment extends Fragment {
     ImageView Cimg;
     EditText Date, Place, NoD, NoN, Des,Price;
     Bitmap pic;
-    boolean CPicCheck= false;
+    boolean PicCheck= false;
     DatabaseReference referance;
     FirebaseDatabase rootNode;
     private Uri coverImgUri;
@@ -71,7 +74,7 @@ public class EditPackageFragment extends Fragment {
     int month;
     int dayOfMonth;
     Calendar calendar;
-    String imageURiDB,dbPrice,dbDate,dbPlace,dbNon,dbNod,dbDes,imgUrl;
+    String imageURiDB,dbPrice,dbDate,dbPlace,dbNon,dbNod,dbDes,imgUrl,imageRef;
 
     public static EditPackageFragment newInstance() {
         return new EditPackageFragment();
@@ -169,7 +172,7 @@ public class EditPackageFragment extends Fragment {
                 Intent intent = result.getData();
                 pic =(Bitmap) intent.getExtras().get("data");
                 Cimg.setImageBitmap(pic);
-                CPicCheck= true;
+                PicCheck= true;
 
 
                 Bitmap imgRoomBitmap =(Bitmap) intent.getExtras().get("data");
@@ -189,7 +192,7 @@ public class EditPackageFragment extends Fragment {
                 coverImgUri = intent.getData();
                 Cimg.setImageURI(coverImgUri);
                 pic = ((BitmapDrawable)Cimg.getDrawable()).getBitmap();
-                CPicCheck= true;
+                PicCheck= true;
             }
         });
 
@@ -235,31 +238,21 @@ public class EditPackageFragment extends Fragment {
                     String newDes = Des.getText().toString();
 
 
-//
-//                    String[] splitRF = rF.split("[,]", 0);
-//                    String roomFloor = splitRF[0];
-//                    String brF = String.valueOf(bathroomF.getSelectedItem());
-//                    String[] splitBRF = brF.split("[,]", 0);
-//                    String bathroomFloor =splitBRF[0];
-//                    String nobr = editNoOfBr.getText().toString();
-//                    String user = Temp.getNIC();
-//                    String status ="1";
-//                    int RSqFt = Integer.valueOf(editRSqFt.getText().toString());
-//                    int BrSqFt = Integer.valueOf(editBrSqFt.getText().toString());
-//                    String rsqft =editRSqFt.getText().toString();
-//                    String bsqft =editBrSqFt.getText().toString();
+                    if( Date.getText().toString().equals(dbDate)&&Price.getText().toString().equals(dbPrice)&&
+                            Place.getText().toString().equals(dbPlace)&&NoD.getText().toString().equals(dbNod)&&
+                            NoN.getText().toString().equals(dbNon)&&Des.getText().toString().equals(dbDes)&&PicCheck==false){
 
 
-//                    if( editDate.getText().toString().equals(dateDb)&&editLoc.getText().toString().equals(locDb)&&
-//                            editNoOfR.getText().toString().equals(NoOfRDb)&&editNoOfBr.getText().toString().equals(NoOfBrDb)&&
-//                            editRSqFt.getText().toString().equals(RSqFtDb)&&editBrSqFt.getText().toString().equals(BrSqFtDb)&&
-//                            rfSpinner.equals(roomFloor)&&bfSpinner.equals(bathroomFloor)&&RPicCheck==false&&BrPicCheck==false){
-//
-//
-//                        Toast.makeText(getActivity().getApplicationContext(),"Nothing to update!",Toast.LENGTH_LONG).show();
-//
-//                    }
-//                    else{
+                        Toast.makeText(getActivity().getApplicationContext(),"Nothing to update!",Toast.LENGTH_LONG).show();
+
+                        FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+                        EditPackageFragment fragment = new EditPackageFragment();
+                        trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                        trans.remove(fragment);
+                        trans.commit();
+
+                    }
+                    else{
 
                     //Storing the job data
                     try{
@@ -270,10 +263,9 @@ public class EditPackageFragment extends Fragment {
 
 
                         //creating object
-                        Package pack=new Package(//add variables..........................................................................);
-
-                        referance.child(jobID).setValue(job);
-                        Toast.makeText(getActivity().getApplicationContext(),"Post Updated!",Toast.LENGTH_LONG).show();
+                        Package pack=new Package(packID,newPlace,newDate,newPrice,newNon,newNod,newDes,imgUrl);
+                        referance.child(packID).setValue(pack);
+                        Toast.makeText(getActivity().getApplicationContext(),"Package Updated!",Toast.LENGTH_LONG).show();
                     }catch(Exception ex)
                     {
                         throw ex;
@@ -281,7 +273,7 @@ public class EditPackageFragment extends Fragment {
 
                         //getting the key
                         rootNode = FirebaseDatabase.getInstance();
-                        referance = rootNode.getReference("Job");
+                        referance = rootNode.getReference("Package");
                         referance.limitToLast(1).addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s)
@@ -291,13 +283,13 @@ public class EditPackageFragment extends Fragment {
                                     // uploading image
                                     try {
                                         storageReference = FirebaseStorage.getInstance().getReference();
-                                        if (imgRoomUri != null) {
+                                        if (coverImgUri != null) {
                                             final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                                             progressDialog.setTitle("Uploading Images...");
                                             progressDialog.show();
                                             progressDialog.setCancelable(false);
-                                            StorageReference rRef = storageReference.child("images/" + jobID+"/Room");
-                                            uploadTask = rRef.putFile(imgRoomUri);
+                                            StorageReference rRef = storageReference.child("images/" + packID+"/CoverImg");
+                                            uploadTask = rRef.putFile(coverImgUri);
                                             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                 @Override
                                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -308,40 +300,40 @@ public class EditPackageFragment extends Fragment {
                                                     downloadUrlR.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                         @Override
                                                         public void onSuccess(Uri uri) {
-                                                            imageRefR = uri.toString();
-                                                            referance = rootNode.getReference("Job");
-                                                            referance.child(jobID).child("imageR").setValue(imageRefR);
+                                                            imageRef = uri.toString();
+                                                            referance = rootNode.getReference("Package");
+                                                            referance.child(packID).child("coverImg").setValue(imageRef);
                                                             progressDialog.dismiss();
+//                                                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+//                                                            EditPackageFragment fragment = new EditPackageFragment();
+//                                                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
+//                                                            trans.remove(fragment);
+//                                                            trans.commit();
+                                                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+                                                            HomeFragment fragment = new HomeFragment();
+                                                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                                            trans.addToBackStack(null);
+                                                            trans.detach(fragment);
+                                                            trans.attach(fragment);
+                                                            trans.commit();
+
                                                         }
                                                     });
                                                 }
                                             });
-                                        }
-                                        if (imgBathroomUri != null) {
-                                            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                                            progressDialog.setTitle("Uploading Images...");
-                                            progressDialog.show();
-                                            progressDialog.setCancelable(false);
-
-                                            StorageReference brRef = storageReference.child("images/" + jobID+"/Bathroom");
-
-                                            uploadTask = brRef.putFile(imgBathroomUri);
-                                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
-                                                    Task<Uri> downloadUrlBR = brRef.getDownloadUrl();
-                                                    downloadUrlBR.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                        @Override
-                                                        public void onSuccess(Uri uri) {
-                                                            imageRefBr = uri.toString();
-                                                            referance = rootNode.getReference("Job");
-                                                            referance.child(jobID).child("imageBr").setValue(imageRefBr);
-                                                            progressDialog.dismiss();
-                                                        }
-                                                    });
-                                                }
-                                            });
+                                        }else{
+//                                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+//                                            EditPackageFragment fragment = new EditPackageFragment();
+//                                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
+//                                            trans.remove(fragment);
+//                                            trans.commit();
+                                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+                                            HomeFragment fragment = new HomeFragment();
+                                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                            trans.addToBackStack(null);
+                                            trans.detach(fragment);
+                                            trans.attach(fragment);
+                                            trans.commit();
                                         }
                                     }catch(Exception ex){
                                         throw ex;
@@ -358,7 +350,7 @@ public class EditPackageFragment extends Fragment {
                             public void onCancelled(@NonNull DatabaseError error) { }
                         });
 
-//                    }
+                    }
 
 
 

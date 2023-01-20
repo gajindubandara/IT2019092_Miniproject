@@ -4,6 +4,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,20 +24,26 @@ import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.ui.tour_package.EditPackageFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class PackageDetailsFragment extends Fragment {
 
     private PackageDetailsViewModel mViewModel;
-    TextView place,price,des,date;
+    TextView place,price,des,date,non,nod;
     ImageView coverImg;
-    CardView book,edit;
+    CardView book,edit,del;
+    DatabaseReference referance;
+    FirebaseDatabase rootNode;
 
     public static PackageDetailsFragment newInstance() {
         return new PackageDetailsFragment();
@@ -54,6 +63,11 @@ public class PackageDetailsFragment extends Fragment {
         des =view.findViewById(R.id.packDes);
         book=view.findViewById(R.id.btnBook);
         edit=view.findViewById(R.id.btnEdit);
+        non=view.findViewById(R.id.packNon);
+        nod=view.findViewById(R.id.packNod);
+        del=view.findViewById(R.id.btnDel);
+
+
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Package");
         Query checkUser = reference.orderByChild("packageID").equalTo(packID);
@@ -77,6 +91,8 @@ public class PackageDetailsFragment extends Fragment {
                     price.setText("Rs. "+snapshot.child(packID).child("price").getValue(String.class)+".00/-");
                     des.setText(snapshot.child(packID).child("des").getValue(String.class));
                     place.setText(snapshot.child(packID).child("place").getValue(String.class));
+                    non.setText(snapshot.child(packID).child("non").getValue(String.class)+" Nights");
+                    nod.setText(snapshot.child(packID).child("nod").getValue(String.class)+" Days");
 
                     edit.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -93,13 +109,66 @@ public class PackageDetailsFragment extends Fragment {
                     });
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(),"no data",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity().getApplicationContext(),"no data",Toast.LENGTH_LONG).show();
+                    FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+                    PackageDetailsFragment fragment = new PackageDetailsFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                    trans.remove(fragment);
+                    trans.commit();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ProgressDialog progressDialog = new ProgressDialog(del.getContext());
+                progressDialog.setTitle("Removing Package...");
+                progressDialog.setCancelable(false);
+
+                AlertDialog.Builder builder =new AlertDialog.Builder(del.getContext());
+                builder.setMessage("Are you sure,You want to remove the package").setTitle("Confirm Delete").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        progressDialog.show();
+                        rootNode = FirebaseDatabase.getInstance();
+                        referance = rootNode.getReference("Package");
+
+
+                        referance.child(packID).removeValue();
+
+                        StorageReference storageReference= FirebaseStorage.getInstance().getReference();
+                        String Cimg = "images/" + packID+"/CoverImg";
+                        storageReference.child(Cimg).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                progressDialog.dismiss();
+                            }
+                        });
+
+
+                        Toast.makeText((MainActivity)v.getContext(),"Post Removed!",Toast.LENGTH_LONG).show();
+                        FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
+                        HomeFragment fragment = new HomeFragment();
+                        trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                        trans.addToBackStack(null);
+                        trans.commit();
+
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //if no action
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
