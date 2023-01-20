@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.databinding.FragmentHomeBinding;
 import com.example.it2019092_miniproject.model.Package;
+import com.example.it2019092_miniproject.model.TopPlaces;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,6 +69,21 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+
+        List<TopPlaces> placesList = new ArrayList<>();
+        RecyclerView recyclerViewTopPlaces = root.findViewById(R.id.top_places_recycler);
+        TopPlacesAdapter adapterPlaces= new TopPlacesAdapter(root.getContext(),placesList);
+        RecyclerView.LayoutManager layoutManagerTopPlaces = new LinearLayoutManager(root.getContext(), RecyclerView.VERTICAL, false);
+        recyclerViewTopPlaces.setLayoutManager(layoutManagerTopPlaces);
+
+        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
+        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
+        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
+        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
+        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
+
+        recyclerViewTopPlaces.setAdapter(adapterPlaces);
 
 //        final TextView textView = binding.textHome;
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
