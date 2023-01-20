@@ -67,8 +67,7 @@ public class PackageDetailsFragment extends Fragment {
         non=view.findViewById(R.id.packNon);
         nod=view.findViewById(R.id.packNod);
         del=view.findViewById(R.id.btnDel);
-
-        Toast.makeText(getActivity().getApplicationContext(),userID,Toast.LENGTH_LONG).show();
+        
         if (userID.equals("0000")){
             del.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
