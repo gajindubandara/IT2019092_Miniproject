@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "610277600587",
+    "firebase_url": "https://travel-app-24143-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "travel-app-24143",
+    "storage_bucket": "travel-app-24143.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610277600587:android:d8d98af43172cdc0630cce",
+        "android_client_info": {
+          "package_name": "com.example.it2019092_miniproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610277600587-da4mjsf9umnrj70hj7lgdcd57bog15qg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ1AD2rKsAA-lbmEIBWc2r2N2LmP8LGzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610277600587-da4mjsf9umnrj70hj7lgdcd57bog15qg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
