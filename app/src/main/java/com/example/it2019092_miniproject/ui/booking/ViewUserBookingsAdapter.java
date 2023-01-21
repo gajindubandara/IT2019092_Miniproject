@@ -6,15 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.model.Booking;
+import com.example.it2019092_miniproject.model.Package;
+import com.example.it2019092_miniproject.ui.home.HomeFragment;
 import com.example.it2019092_miniproject.ui.home.PackageDetailsFragment;
 import com.example.it2019092_miniproject.ui.tour_package.EditPackageFragment;
 import com.google.firebase.database.DataSnapshot;
@@ -80,29 +84,59 @@ public class ViewUserBookingsAdapter extends RecyclerView.Adapter<ViewUserBookin
         });
 
         holder.status.setText(booking.getStatus());
-        holder.passengers.setText(booking.getNop());
+
+        if (booking.getStatus().equals("Request pending")){
+            holder.accept.setVisibility(View.VISIBLE);
+            holder.decline.setVisibility(View.VISIBLE);
+            holder.dot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_yellow_dot));
+        }
+        else if (booking.getStatus().equals("Accepted")){
+            holder.accept.setVisibility(View.GONE);
+            holder.decline.setVisibility(View.GONE);
+            holder.dot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_green_dot));
+        }
+        else if (booking.getStatus().equals("Declined")){
+            holder.accept.setVisibility(View.GONE);
+            holder.decline.setVisibility(View.GONE);
+            holder.dot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_dot));
+        }
+
+        holder.passengers.setText("Passengers: "+booking.getNop());
 
 
-//        if(url.equals("")){
-//            holder.imgPlace.setImageResource(R.drawable.try_later);
-//        }else{
-//            Picasso.get().load(url).placeholder(R.drawable.progress_animation).resize(500, 500).
-//                    centerCrop().error(R.drawable.try_later).into(holder.imgPlace);
-//        }
+        holder.accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                //Sending data to the database
+                rootNode = FirebaseDatabase.getInstance();
+                referance = rootNode.getReference("Booking");
+                referance.child(booking.getID()).child("status").setValue("Accepted");
 
-//        holder.seeMore.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Temp.setPackageID(pack.getPackageID());
-//                ViewUserBookingsFragment fragment =new ViewUserBookingsFragment();
-//                FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
-//                ft.replace(R.id.nav_host_fragment_content_main,fragment);
-//                ft.addToBackStack(null);
-//                ft.commit();
-//            }
-//        });
+                FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
+                ViewUserBookingsFragment fragment = new ViewUserBookingsFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        });
+
+        holder.decline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Sending data to the database
+                rootNode = FirebaseDatabase.getInstance();
+                referance = rootNode.getReference("Booking");
+                referance.child(booking.getID()).child("status").setValue("Declined");
+
+                FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
+                ViewUserBookingsFragment fragment = new ViewUserBookingsFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        });
 
     }
 
@@ -114,6 +148,7 @@ public class ViewUserBookingsAdapter extends RecyclerView.Adapter<ViewUserBookin
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, no, passengers,status;
         Button accept,decline;
+        ImageView dot;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,6 +158,7 @@ public class ViewUserBookingsAdapter extends RecyclerView.Adapter<ViewUserBookin
             status =itemView.findViewById(R.id.booking_status);
             accept = itemView.findViewById(R.id.btnAccpet);
             decline = itemView.findViewById(R.id.btnDecline);
+            dot = itemView.findViewById(R.id.status_dot);
 
         }
     }
