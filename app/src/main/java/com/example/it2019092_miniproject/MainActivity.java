@@ -6,6 +6,7 @@ import android.view.Menu;
 
 import com.example.it2019092_miniproject.databinding.ActivityMainBinding;
 import com.example.it2019092_miniproject.ui.booking.AllPackagesFragment;
+import com.example.it2019092_miniproject.ui.booking.UserViewBookingsFragment;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
 import com.example.it2019092_miniproject.ui.login.LoginFragment;
 import com.example.it2019092_miniproject.ui.register.RegisterFragment;
@@ -76,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(menuID ==R.id.nav_allPacks){
                     AllPackagesFragment fragment =new AllPackagesFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
+                else if(menuID ==R.id.nav_userViewBookings){
+                    UserViewBookingsFragment fragment =new UserViewBookingsFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
 //                else if(menuID ==R.id.nav_profile){

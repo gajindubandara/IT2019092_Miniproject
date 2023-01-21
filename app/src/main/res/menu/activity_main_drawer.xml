@@ -25,5 +25,9 @@
             android:id="@+id/nav_allPacks"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="all" />
+        <item
+            android:id="@+id/nav_userViewBookings"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="My bookings" />
     </group>
 </menu>

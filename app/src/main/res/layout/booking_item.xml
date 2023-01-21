@@ -25,68 +25,80 @@
         android:id="@+id/booking_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="*************"
+        android:layout_marginTop="8dp"
+        android:text="0000000000"
         android:textColor="@color/bg"
-        app:layout_constraintStart_toStartOf="@+id/booking_name"
-        app:layout_constraintTop_toBottomOf="@+id/booking_name" />
+        app:layout_constraintStart_toStartOf="@+id/booking_passengers"
+        app:layout_constraintTop_toBottomOf="@+id/booking_passengers" />
 
     <TextView
         android:id="@+id/booking_passengers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="***********"
+        android:layout_marginTop="8dp"
+        android:text="Passengers: 00"
         android:textColor="@color/bg"
-        app:layout_constraintStart_toStartOf="@+id/booking_no"
-        app:layout_constraintTop_toBottomOf="@+id/booking_no" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toEndOf="@+id/booking_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/booking_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Date: 0000/00/00"
+        android:textColor="@color/bg"
+        app:layout_constraintStart_toStartOf="@+id/booking_name"
+        app:layout_constraintTop_toBottomOf="@+id/booking_name" />
 
     <TextView
         android:id="@+id/booking_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="5dp"
         android:text="Status : *****"
         android:textColor="@color/bg"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/status_dot"
-        app:layout_constraintTop_toBottomOf="@+id/booking_passengers" />
+        app:layout_constraintTop_toBottomOf="@+id/booking_date"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnAccpet"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/btnColor"
         android:text="Accept"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.93"
-        app:layout_constraintStart_toEndOf="@+id/booking_name"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/booking_status" />
 
     <Button
         android:id="@+id/btnDecline"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/btnColor"
         android:text="Decline "
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.93"
-        app:layout_constraintStart_toEndOf="@+id/booking_name"
-        app:layout_constraintTop_toBottomOf="@+id/btnAccpet" />
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toEndOf="@+id/btnAccpet"
+        app:layout_constraintTop_toBottomOf="@+id/booking_status" />
 
     <ImageView
         android:id="@+id/status_dot"
         android:layout_width="10dp"
         android:layout_height="10dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/booking_passengers"
-        app:layout_constraintTop_toBottomOf="@+id/booking_passengers"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/booking_date"
+        app:layout_constraintTop_toBottomOf="@+id/booking_date" />
 </androidx.constraintlayout.widget.ConstraintLayout>

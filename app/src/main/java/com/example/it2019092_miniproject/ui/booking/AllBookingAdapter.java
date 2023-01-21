@@ -16,7 +16,6 @@ import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.model.Package;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
@@ -68,7 +67,7 @@ public class AllBookingAdapter extends RecyclerView.Adapter<AllBookingAdapter.Vi
             public void onClick(View v) {
 
                 Temp.setPackageID(pack.getPackageID());
-                ViewUserBookingsFragment fragment =new ViewUserBookingsFragment();
+                ViewBookingsFragment fragment =new ViewBookingsFragment();
                 FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.nav_host_fragment_content_main,fragment);
                 ft.addToBackStack(null);

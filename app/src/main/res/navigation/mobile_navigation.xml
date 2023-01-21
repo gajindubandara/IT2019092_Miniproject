@@ -31,4 +31,9 @@
         android:name="com.example.it2019092_miniproject.ui.booking.AllPackagesFragment"
         android:label="fragment_all_packages"
         tools:layout="@layout/fragment_all_packages" />
+    <fragment
+        android:id="@+id/nav_userViewBookings"
+        android:name="com.example.it2019092_miniproject.ui.booking.UserViewBookingsFragment"
+        android:label="fragment_user_view_bookings"
+        tools:layout="@layout/fragment_user_view_bookings" />
 </navigation>
