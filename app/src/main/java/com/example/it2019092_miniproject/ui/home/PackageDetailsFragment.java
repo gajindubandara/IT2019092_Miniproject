@@ -16,13 +16,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
+import com.example.it2019092_miniproject.model.Booking;
 import com.example.it2019092_miniproject.ui.tour_package.EditPackageFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,6 +47,8 @@ public class PackageDetailsFragment extends Fragment {
     CardView book,edit,del;
     DatabaseReference referance;
     FirebaseDatabase rootNode;
+    EditText nop;
+    String packagePrice;
 
     public static PackageDetailsFragment newInstance() {
         return new PackageDetailsFragment();
@@ -67,7 +72,10 @@ public class PackageDetailsFragment extends Fragment {
         non=view.findViewById(R.id.packNon);
         nod=view.findViewById(R.id.packNod);
         del=view.findViewById(R.id.btnDel);
-        
+        nop=view.findViewById(R.id.nop);
+        nop.setText("1");
+
+
         if (userID.equals("0000")){
             del.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
@@ -79,10 +87,10 @@ public class PackageDetailsFragment extends Fragment {
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Package");
-        Query checkUser = reference.orderByChild("packageID").equalTo(packID);
+        Query getPackage = reference.orderByChild("packageID").equalTo(packID);
 
 
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        getPackage.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 //                preloader.dismissDialog();
@@ -98,6 +106,7 @@ public class PackageDetailsFragment extends Fragment {
 
                     date.setText(snapshot.child(packID).child("date").getValue(String.class));
                     price.setText("Rs. "+snapshot.child(packID).child("price").getValue(String.class)+".00/-");
+                    packagePrice=snapshot.child(packID).child("price").getValue(String.class);
                     des.setText(snapshot.child(packID).child("des").getValue(String.class));
                     place.setText(snapshot.child(packID).child("place").getValue(String.class));
                     non.setText(snapshot.child(packID).child("non").getValue(String.class)+" Nights");
@@ -178,6 +187,41 @@ public class PackageDetailsFragment extends Fragment {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int value= Integer.valueOf(nop.getText().toString());
+                try{
+                    if(value>0) {
+                        long millis=System.currentTimeMillis();
+                        java.sql.Date date = new java.sql.Date(millis);
+                        String dateString = String.valueOf(date);
+                        int total =Integer.valueOf(packagePrice) * value;
+                        String stringTotal= String.valueOf(total);
+
+                        //Sending data to the database
+                        rootNode = FirebaseDatabase.getInstance();
+                        referance = rootNode.getReference("Booking");
+                        String bookingKey= referance.push().getKey();
+                        Booking booking = new Booking(bookingKey,packID,dateString,userID,nop.getText().toString(),stringTotal,"Request pending");
+                        referance.child(bookingKey).setValue(booking);
+
+                        Toast.makeText(getActivity().getApplicationContext(), "Booking Created!", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Select a valid number", Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch(Exception ex){
+                    Toast.makeText(getActivity().getApplicationContext(), " number", Toast.LENGTH_LONG).show();
+                }
+
+
+
             }
         });
 

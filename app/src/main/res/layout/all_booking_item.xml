@@ -27,17 +27,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="AM Lake"
+        android:text="******"
         android:textColor="@color/bg"
         app:layout_constraintStart_toEndOf="@+id/place_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/country_name"
+        android:id="@+id/place_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="India"
+        android:text="00/00/0000"
         android:textColor="@color/bg"
         app:layout_constraintStart_toStartOf="@+id/place_name"
         app:layout_constraintTop_toBottomOf="@+id/place_name" />
@@ -47,13 +47,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="From $200"
+        android:text="0000"
         android:textColor="@color/bg"
-        app:layout_constraintStart_toStartOf="@+id/country_name"
-        app:layout_constraintTop_toBottomOf="@+id/country_name" />
+        app:layout_constraintStart_toStartOf="@+id/place_date"
+        app:layout_constraintTop_toBottomOf="@+id/place_date" />
 
     <ImageView
-        android:id="@+id/seeMore"
+        android:id="@+id/place_seeMore"
         android:layout_width="37dp"
         android:layout_height="99dp"
         app:layout_constraintBottom_toBottomOf="parent"

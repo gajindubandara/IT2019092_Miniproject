@@ -1,7 +1,4 @@
-package com.example.it2019092_miniproject.ui.home;
-
-
-
+package com.example.it2019092_miniproject.ui.booking;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,19 +20,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-
-
 import java.util.List;
 
-public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
+public class AllBookingAdapter extends RecyclerView.Adapter<AllBookingAdapter.ViewHolder> {
     FirebaseDatabase fdb;
     List<Package> packageList;
-    DatabaseReference referance;
-    FirebaseDatabase rootNode;
     private Context context;
 
 
-    public PackageAdapter(List<Package> packages, FirebaseDatabase _db){
+
+    public AllBookingAdapter(List<Package> packages, FirebaseDatabase _db){
 
         packageList = packages;
         fdb = _db;
@@ -47,8 +40,8 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View Items = inflater.inflate(R.layout.package_row_item,parent,false);
-        ViewHolder holder = new ViewHolder(Items);
+        View eventItems = inflater.inflate(R.layout.all_booking_item,parent,false);
+        ViewHolder holder = new ViewHolder(eventItems);
         context = parent.getContext();
         return holder;
     }
@@ -56,36 +49,33 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        Package pack=packageList.get(position);
-
-        holder.name.setText(pack.getPlace());
-        holder.price.setText("Rs."+pack.getPrice()+".00/-");
+        Package pack = packageList.get(position);
+        holder.txtDate.setText("Departure date :"+pack.getDate());
+        holder.txtPrice.setText("Rs. "+pack.getPrice()+".00/-");
+        holder.txtPlace.setText(pack.getPlace());
         String url =pack.getCoverImg();
 
         if(url.equals("")){
-            holder.coverImg.setImageResource(R.drawable.try_later);
+            holder.imgPlace.setImageResource(R.drawable.try_later);
         }else{
             Picasso.get().load(url).placeholder(R.drawable.progress_animation).resize(500, 500).
-                    centerCrop().error(R.drawable.try_later).into(holder.coverImg);
+                    centerCrop().error(R.drawable.try_later).into(holder.imgPlace);
         }
 
-//        Picasso.with(context).load(url)into(imageView);
-        holder.packDetails.setOnClickListener(new View.OnClickListener() {
+
+        holder.seeMore.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
 
                 Temp.setPackageID(pack.getPackageID());
-
-                FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-                PackageDetailsFragment fragment = new PackageDetailsFragment();
-                trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                trans.addToBackStack(null);
-                trans.detach(fragment);
-                trans.attach(fragment);
-                trans.commit();
+                ViewUserBookingsFragment fragment =new ViewUserBookingsFragment();
+                FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.nav_host_fragment_content_main,fragment);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
+
     }
 
     @Override
@@ -94,17 +84,18 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name,price;
-        ImageView coverImg;
-        CardView packDetails;
+        TextView txtDate, txtPrice, txtPlace;
+        ImageView imgPlace,seeMore;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name =itemView.findViewById(R.id.place_name);
-            coverImg =itemView.findViewById(R.id.place_image);
-            price =itemView.findViewById(R.id.place_price);
-            packDetails=itemView.findViewById(R.id.packDetails);
+            txtDate =itemView.findViewById(R.id.place_date);
+            txtPrice =itemView.findViewById(R.id.place_price);
+            txtPlace =itemView.findViewById(R.id.place_name);
+            imgPlace =itemView.findViewById(R.id.place_image);
+            seeMore = itemView.findViewById(R.id.place_seeMore);
 
         }
     }
 }
+

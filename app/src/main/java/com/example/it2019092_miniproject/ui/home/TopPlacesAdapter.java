@@ -60,7 +60,7 @@ public class TopPlacesAdapter extends RecyclerView.Adapter<TopPlacesAdapter.TopP
             placeImage = itemView.findViewById(R.id.place_image);
             placeName = itemView.findViewById(R.id.place_name);
             countryName = itemView.findViewById(R.id.country_name);
-            price = itemView.findViewById(R.id.price);
+            price = itemView.findViewById(R.id.place_price);
 
         }
     }
