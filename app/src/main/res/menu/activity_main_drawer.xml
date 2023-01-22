@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="Home" />
 
         <item
             android:id="@+id/nav_newPackage"
@@ -29,5 +29,9 @@
             android:id="@+id/nav_userViewBookings"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="My bookings" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="logout" />
     </group>
 </menu>

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.it2019092_miniproject.PasswordHash.passwordHash;
 import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
+import com.example.it2019092_miniproject.SharedPreference;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
 import com.example.it2019092_miniproject.ui.register.RegisterFragment;
@@ -72,20 +73,13 @@ public class LoginFragment extends Fragment {
                             preloader.dismissDialog();
                             if(snapshot.exists()){
                                 String passwordFromDB =snapshot.child(enteredNIC).child("password").getValue(String.class);
-                                String userTypeFromDB =snapshot.child(enteredNIC).child("type").getValue(String.class);
-
 
                                 if(passwordFromDB.equals(enteredPW)){
                                     Temp.setNIC(enteredNIC);
-
-//                                    String userNameFromDB =snapshot.child(enteredNIC).child("name").getValue(String.class);
-//                                    SharedPreference preference=new SharedPreference();
-//                                    preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
-//                                    preference.SaveBool(view.getContext(),true,SharedPreference.LOGIN_STATUS);
-//                                    preference.SaveString(view.getContext(),userTypeFromDB,SharedPreference.USER_TYPE);
-//                                    preference.SaveString(view.getContext(),enteredNIC,SharedPreference.USER_NIC);
-//                                    preference.SaveString(view.getContext(),userNameFromDB,SharedPreference.USER_NAME);
-
+                                    SharedPreference preference=new SharedPreference();
+                                    preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
+                                    preference.SaveBool(view.getContext(),true,SharedPreference.LOGIN_STATUS);
+                                    preference.SaveString(view.getContext(),enteredNIC,SharedPreference.USER_NIC);
 
                                     //Move to home frag
                                     FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();

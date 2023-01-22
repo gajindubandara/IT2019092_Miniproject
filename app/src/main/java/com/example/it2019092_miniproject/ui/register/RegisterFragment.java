@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.it2019092_miniproject.PasswordHash.passwordHash;
 import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
+import com.example.it2019092_miniproject.SharedPreference;
 import com.example.it2019092_miniproject.model.User;
 import com.example.it2019092_miniproject.ui.login.LoginFragment;
 import com.google.firebase.database.DataSnapshot;
@@ -57,20 +58,13 @@ public class RegisterFragment extends Fragment {
         txtNum = view.findViewById(R.id.Num);
         txtPw = view.findViewById(R.id.Pw);
         txtCpw = view.findViewById(R.id.Cpw);
-
         btnRegister = view.findViewById(R.id.btnRegister);
 
-
-
-
         final PreLoader preloader = new PreLoader(getActivity());
-
-
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 //Validation
                 if (checkValid()){
@@ -108,9 +102,9 @@ public class RegisterFragment extends Fragment {
                                         ref.child(user.getUserNIC()).setValue(user);
 
 
-//                                        //Set shared pref for register
-//                                        SharedPreference preference=new SharedPreference();
-//                                        preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
+                                        //Set shared pref for register
+                                        SharedPreference preference=new SharedPreference();
+                                        preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
 
                                         //Move to login frag
                                         LoginFragment fragment = new LoginFragment();

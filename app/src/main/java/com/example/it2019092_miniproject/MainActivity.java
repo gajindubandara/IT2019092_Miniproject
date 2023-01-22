@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    boolean status= false;
+    boolean register= false;
+    String NIC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,87 @@ public class MainActivity extends AppCompatActivity {
         //adding the navigation manually
         getSupportFragmentManager().popBackStack();
         FragmentTransaction trans =getSupportFragmentManager().beginTransaction();
+
+        //shared preference part
+        SharedPreference preference= new SharedPreference();
+        register =  preference.GetBoolean(getApplicationContext(),SharedPreference.REGISTER);
+        status = preference.GetBoolean(getApplicationContext(),SharedPreference.LOGIN_STATUS);
+        NIC=preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
+        Temp.setNIC(NIC);
+
+        Menu menu1 = navigationView.getMenu();
+        MenuItem item1=menu1.findItem(R.id.nav_allPacks);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_newPackage);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_userViewBookings);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_home);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_logout);
+        item1.setVisible(false);
+
+
+        //check register
+        if (register){
+            Menu menu = navigationView.getMenu();
+            MenuItem item;
+            item=menu1.findItem(R.id.nav_register);
+            item.setVisible(false);
+
+            //check login
+            if(status) {
+                item1=menu1.findItem(R.id.nav_home);
+                item1.setVisible(true);
+                item1=menu1.findItem(R.id.nav_logout);
+                item1.setVisible(true);
+
+
+
+                //check user type
+                if (NIC.equals("0000")){
+                    item=menu.findItem(R.id.nav_allPacks);
+                    item.setVisible(true);
+                    item=menu.findItem(R.id.nav_newPackage);
+                    item.setVisible(true);
+
+                }
+                else {
+                    item=menu.findItem(R.id.nav_userViewBookings);
+                    item.setVisible(true);
+                }
+
+                item=menu.findItem(R.id.nav_login);
+                item.setVisible(false);
+
+
+                //moving to frag
+                HomeFragment fragment = new HomeFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+            else {
+                //moving to frag
+                LoginFragment fragment = new LoginFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        }
+        else {
+            Menu menu = navigationView.getMenu();
+            MenuItem item=menu.findItem(R.id.nav_register);
+            item.setVisible(true);
+
+            //moving to frag
+            RegisterFragment fragment = new RegisterFragment();
+            trans.replace(R.id.nav_host_fragment_content_main,fragment);
+            trans.addToBackStack(null);
+            trans.commit();
+
+        }
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -82,6 +166,30 @@ public class MainActivity extends AppCompatActivity {
                 else if(menuID ==R.id.nav_userViewBookings){
                     UserViewBookingsFragment fragment =new UserViewBookingsFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
+                else if (menuID==R.id.nav_logout){
+                    LoginFragment fragment = new LoginFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                    trans.addToBackStack(null);
+
+                    preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
+                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
+
+                    Menu menu1 = navigationView.getMenu();
+                    MenuItem item1=menu1.findItem(R.id.nav_home);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_allPacks);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_userViewBookings);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_newPackage);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_logout);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_register);
+                    item1.setVisible(false);
+
+
                 }
 //                else if(menuID ==R.id.nav_profile){
 //                    ProfileFragment fragment =new ProfileFragment();

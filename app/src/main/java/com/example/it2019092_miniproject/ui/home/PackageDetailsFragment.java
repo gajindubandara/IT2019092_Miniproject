@@ -107,7 +107,7 @@ public class PackageDetailsFragment extends Fragment {
                     }else{
                         Picasso.get().load(Url).placeholder(R.drawable.progress_animation).error(R.drawable.try_later).into(coverImg);
                     }
-                    
+
                     date.setText(snapshot.child(packID).child("date").getValue(String.class));
                     price.setText("Rs. "+snapshot.child(packID).child("price").getValue(String.class)+".00/-");
                     packagePrice=snapshot.child(packID).child("price").getValue(String.class);
