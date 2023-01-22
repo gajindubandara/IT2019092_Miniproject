@@ -58,18 +58,28 @@ public class UserViewBookingsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 //                preloader.dismissDialog();
                 if (snapshot.exists()) {
-//                    Toast.makeText(getContext(),"found",Toast.LENGTH_LONG).show();
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Booking booking=postSnapshot.getValue(Booking.class);
-                        bookingList.add(booking);
+                        if (booking.getStatus().equals("Request pending")) {
+                            bookingList.add(booking);
+                        }
                     }
-//
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Booking booking=postSnapshot.getValue(Booking.class);
+                        if (booking.getStatus().equals("Accepted")) {
+                            bookingList.add(booking);
+                        }
+                    }
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Booking booking=postSnapshot.getValue(Booking.class);
+                        if (booking.getStatus().equals("Declined")) {
+                            bookingList.add(booking);
+                        }
+                    }
+
                     UserViewBookingsAdapter adapter= new UserViewBookingsAdapter(bookingList,fdb);
-//
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
                     recyclerView.setLayoutManager(layoutManager);
-
-//                    recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
                     recyclerView.setAdapter(adapter);
                 }else{
                     noBookings.setVisibility(View.VISIBLE);
