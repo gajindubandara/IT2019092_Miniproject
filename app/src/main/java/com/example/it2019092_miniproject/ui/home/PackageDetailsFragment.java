@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.model.Booking;
+import com.example.it2019092_miniproject.ui.booking.UserViewBookingsAdapter;
 import com.example.it2019092_miniproject.ui.tour_package.EditPackageFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,6 +52,7 @@ public class PackageDetailsFragment extends Fragment {
     FirebaseDatabase rootNode;
     EditText nop;
     String packagePrice;
+    boolean check=false;
 
     public static PackageDetailsFragment newInstance() {
         return new PackageDetailsFragment();
@@ -145,44 +149,89 @@ public class PackageDetailsFragment extends Fragment {
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog progressDialog = new ProgressDialog(del.getContext());
-                progressDialog.setTitle("Removing Package...");
-                progressDialog.setCancelable(false);
-
                 AlertDialog.Builder builder =new AlertDialog.Builder(del.getContext());
                 builder.setMessage("Are you sure,You want to remove the package").setTitle("Confirm Delete").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        progressDialog.show();
                         rootNode = FirebaseDatabase.getInstance();
-                        referance = rootNode.getReference("Package");
-
-
-                        referance.child(packID).removeValue();
-
-                        StorageReference storageReference= FirebaseStorage.getInstance().getReference();
-                        String Cimg = "images/" + packID+"/CoverImg";
-                        storageReference.child(Cimg).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Booking");
+                        Query getBookings = rootRef.orderByChild("packageId").equalTo(packID);
+                        getBookings.addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                progressDialog.dismiss();
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    if(check==false) {
+                                        AlertDialog.Builder builder2 = new AlertDialog.Builder(del.getContext());
+                                        builder2.setMessage("There are booking for this package!,Do you want to remove the package").setTitle("Caution!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                rootNode = FirebaseDatabase.getInstance();
+                                                referance = rootNode.getReference("Package");
+                                                referance.child(packID).removeValue();
+
+                                                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                                                String Cimg = "images/" + packID + "/CoverImg";
+                                                storageReference.child(Cimg).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                    }
+                                                });
+
+                                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                                    Booking booking=postSnapshot.getValue(Booking.class);
+                                                    if (booking.getPackageId().equals(packID)) {
+                                                        rootRef.child(booking.getID()).removeValue();
+                                                    }
+                                                }
+
+                                                Toast.makeText((MainActivity) v.getContext(), "Package Removed!", Toast.LENGTH_LONG).show();
+                                                FragmentTransaction trans = ((MainActivity) v.getContext()).getSupportFragmentManager().beginTransaction();
+                                                HomeFragment fragment = new HomeFragment();
+                                                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                                trans.addToBackStack(null);
+                                                trans.commit();
+
+                                            }
+                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        });
+                                        AlertDialog dialog2 = builder2.create();
+                                        dialog2.show();
+                                        check = true;
+                                    }
+
+                                }else{
+                                    rootNode = FirebaseDatabase.getInstance();
+                                    referance = rootNode.getReference("Package");
+                                    referance.child(packID).removeValue();
+
+                                    StorageReference storageReference= FirebaseStorage.getInstance().getReference();
+                                    String Cimg = "images/" + packID+"/CoverImg";
+                                    storageReference.child(Cimg).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                        }
+                                    });
+
+                                    Toast.makeText((MainActivity)v.getContext(),"Package Removed!",Toast.LENGTH_LONG).show();
+                                    FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
+                                    HomeFragment fragment = new HomeFragment();
+                                    trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                    trans.addToBackStack(null);
+                                    trans.commit();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
                             }
                         });
-
-
-                        Toast.makeText((MainActivity)v.getContext(),"Post Removed!",Toast.LENGTH_LONG).show();
-                        FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
-                        HomeFragment fragment = new HomeFragment();
-                        trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                        trans.addToBackStack(null);
-                        trans.commit();
-
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //if no action
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -194,8 +243,8 @@ public class PackageDetailsFragment extends Fragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int value= Integer.valueOf(nop.getText().toString());
                 try{
+                    int value= Integer.valueOf(nop.getText().toString());
                     if(value>0) {
                         long millis=System.currentTimeMillis();
                         java.sql.Date date = new java.sql.Date(millis);
@@ -217,7 +266,7 @@ public class PackageDetailsFragment extends Fragment {
                     }
                 }
                 catch(Exception ex){
-                    Toast.makeText(getActivity().getApplicationContext(), " number", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Select a valid number", Toast.LENGTH_LONG).show();
                 }
 
 
