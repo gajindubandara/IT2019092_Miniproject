@@ -170,10 +170,31 @@
                     android:inputType="number"
                     android:textAlignment="center"
                     android:textColor="@color/bg"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.065"
-                    app:layout_constraintStart_toEndOf="@+id/textView6"
+                    app:layout_constraintStart_toEndOf="@+id/btnLess"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnLess"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/bg_home"
+                    app:layout_constraintStart_toEndOf="@+id/textView6"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_left" />
+
+                <ImageButton
+                    android:id="@+id/btnMore"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/bg_home"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/nop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_right" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

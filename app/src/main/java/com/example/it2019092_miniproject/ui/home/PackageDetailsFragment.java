@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -52,7 +53,9 @@ public class PackageDetailsFragment extends Fragment {
     FirebaseDatabase rootNode;
     EditText nop;
     String packagePrice;
+    ImageButton less,more;
     boolean check=false;
+
 
     public static PackageDetailsFragment newInstance() {
         return new PackageDetailsFragment();
@@ -77,6 +80,8 @@ public class PackageDetailsFragment extends Fragment {
         nod=view.findViewById(R.id.packNod);
         del=view.findViewById(R.id.btnDel);
         nop=view.findViewById(R.id.nop);
+        less=view.findViewById(R.id.btnLess);
+        more=view.findViewById(R.id.btnMore);
         nop.setText("1");
         del.setVisibility(View.GONE);
         edit.setVisibility(View.GONE);
@@ -91,7 +96,27 @@ public class PackageDetailsFragment extends Fragment {
                 edit.setVisibility(View.GONE);
             }
         }
-        
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int noOfPassengers = Integer.valueOf(nop.getText().toString());
+                nop.setText(String.valueOf(noOfPassengers+1));
+            }
+        });
+
+        less.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int noOfPassengers = Integer.valueOf(nop.getText().toString());
+                if(noOfPassengers-1<0){
+                    nop.setText("0");
+                }else{
+                    nop.setText(String.valueOf(noOfPassengers-1));
+                }
+            }
+        });
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Package");
         Query getPackage = reference.orderByChild("packageID").equalTo(packID);
 
