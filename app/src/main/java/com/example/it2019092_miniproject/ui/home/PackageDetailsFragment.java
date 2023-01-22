@@ -78,18 +78,20 @@ public class PackageDetailsFragment extends Fragment {
         del=view.findViewById(R.id.btnDel);
         nop=view.findViewById(R.id.nop);
         nop.setText("1");
+        del.setVisibility(View.GONE);
+        edit.setVisibility(View.GONE);
 
 
-        if (userID.equals("0000")){
-            del.setVisibility(View.VISIBLE);
-            edit.setVisibility(View.VISIBLE);
-        }else{
-            del.setVisibility(View.GONE);
-            edit.setVisibility(View.GONE);
+        if(Temp.getNIC()!=null){
+            if (userID.equals("0000")){
+                del.setVisibility(View.VISIBLE);
+                edit.setVisibility(View.VISIBLE);
+            }else{
+                del.setVisibility(View.GONE);
+                edit.setVisibility(View.GONE);
+            }
         }
-
-
-
+        
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Package");
         Query getPackage = reference.orderByChild("packageID").equalTo(packID);
 
@@ -243,31 +245,34 @@ public class PackageDetailsFragment extends Fragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    int value= Integer.valueOf(nop.getText().toString());
-                    if(value>0) {
-                        long millis=System.currentTimeMillis();
-                        java.sql.Date date = new java.sql.Date(millis);
-                        String dateString = String.valueOf(date);
-                        int total =Integer.valueOf(packagePrice) * value;
-                        String stringTotal= String.valueOf(total);
 
-                        //Sending data to the database
-                        rootNode = FirebaseDatabase.getInstance();
-                        referance = rootNode.getReference("Booking");
-                        String bookingKey= referance.push().getKey();
-                        Booking booking = new Booking(bookingKey,packID,dateString,userID,nop.getText().toString(),stringTotal,"Request pending");
-                        referance.child(bookingKey).setValue(booking);
+                if (Temp.getNIC() == null) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Please Login First", Toast.LENGTH_LONG).show();
+                } else{
+                    try {
+                        int value = Integer.valueOf(nop.getText().toString());
+                        if (value > 0) {
+                            long millis = System.currentTimeMillis();
+                            java.sql.Date date = new java.sql.Date(millis);
+                            String dateString = String.valueOf(date);
+                            int total = Integer.valueOf(packagePrice) * value;
+                            String stringTotal = String.valueOf(total);
 
-                        Toast.makeText(getActivity().getApplicationContext(), "Booking Created!", Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                            //Sending data to the database
+                            rootNode = FirebaseDatabase.getInstance();
+                            referance = rootNode.getReference("Booking");
+                            String bookingKey = referance.push().getKey();
+                            Booking booking = new Booking(bookingKey, packID, dateString, userID, nop.getText().toString(), stringTotal, "Request pending");
+                            referance.child(bookingKey).setValue(booking);
+
+                            Toast.makeText(getActivity().getApplicationContext(), "Booking Created!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity().getApplicationContext(), "Select a valid number", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception ex) {
                         Toast.makeText(getActivity().getApplicationContext(), "Select a valid number", Toast.LENGTH_LONG).show();
                     }
-                }
-                catch(Exception ex){
-                    Toast.makeText(getActivity().getApplicationContext(), "Select a valid number", Toast.LENGTH_LONG).show();
-                }
+            }
 
 
 

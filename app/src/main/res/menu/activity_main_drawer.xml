@@ -8,30 +8,32 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
             android:title="Home" />
-
-        <item
-            android:id="@+id/nav_newPackage"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="new" />
-        <item
-            android:id="@+id/nav_login"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="login" />
-        <item
-            android:id="@+id/nav_register"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="reg" />
-        <item
-            android:id="@+id/nav_allPacks"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="all" />
         <item
             android:id="@+id/nav_userViewBookings"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="My bookings" />
         <item
-            android:id="@+id/nav_logout"
+            android:id="@+id/nav_login"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="logout" />
+            android:title="login" />
+
+        <!--        <item-->
+        <!--            android:id="@+id/nav_newPackage"-->
+        <!--            android:icon="@drawable/ic_menu_slideshow"-->
+        <!--            android:title="new" />-->
+
+        <!--        <item-->
+        <!--            android:id="@+id/nav_register"-->
+        <!--            android:icon="@drawable/ic_menu_slideshow"-->
+        <!--            android:title="reg" />-->
+        <!--        <item-->
+        <!--            android:id="@+id/nav_allPacks"-->
+        <!--            android:icon="@drawable/ic_menu_slideshow"-->
+        <!--            android:title="all" />-->
+        <!--        <item-->
+        <!--            android:id="@+id/nav_logout"-->
+        <!--            android:icon="@drawable/ic_menu_slideshow"-->
+        <!--            android:title="logout" />-->
+
     </group>
 </menu>

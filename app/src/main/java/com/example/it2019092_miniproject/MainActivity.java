@@ -3,14 +3,13 @@ package com.example.it2019092_miniproject;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.example.it2019092_miniproject.databinding.ActivityMainBinding;
-import com.example.it2019092_miniproject.ui.booking.AllPackagesFragment;
 import com.example.it2019092_miniproject.ui.booking.UserViewBookingsFragment;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
 import com.example.it2019092_miniproject.ui.login.LoginFragment;
 import com.example.it2019092_miniproject.ui.register.RegisterFragment;
-import com.example.it2019092_miniproject.ui.tour_package.NewPackageFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     boolean status= false;
     boolean register= false;
     String NIC;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -62,51 +62,11 @@ public class MainActivity extends AppCompatActivity {
         NIC=preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
         Temp.setNIC(NIC);
 
-        Menu menu1 = navigationView.getMenu();
-        MenuItem item1=menu1.findItem(R.id.nav_allPacks);
-        item1.setVisible(false);
-        item1=menu1.findItem(R.id.nav_newPackage);
-        item1.setVisible(false);
-        item1=menu1.findItem(R.id.nav_userViewBookings);
-        item1.setVisible(false);
-        item1=menu1.findItem(R.id.nav_home);
-        item1.setVisible(false);
-        item1=menu1.findItem(R.id.nav_logout);
-        item1.setVisible(false);
-
-
         //check register
         if (register){
-            Menu menu = navigationView.getMenu();
-            MenuItem item;
-            item=menu1.findItem(R.id.nav_register);
-            item.setVisible(false);
-
             //check login
             if(status) {
-                item1=menu1.findItem(R.id.nav_home);
-                item1.setVisible(true);
-                item1=menu1.findItem(R.id.nav_logout);
-                item1.setVisible(true);
-
-
-
-                //check user type
-                if (NIC.equals("0000")){
-                    item=menu.findItem(R.id.nav_allPacks);
-                    item.setVisible(true);
-                    item=menu.findItem(R.id.nav_newPackage);
-                    item.setVisible(true);
-
-                }
-                else {
-                    item=menu.findItem(R.id.nav_userViewBookings);
-                    item.setVisible(true);
-                }
-
-                item=menu.findItem(R.id.nav_login);
-                item.setVisible(false);
-
+                hide();
 
                 //moving to frag
                 HomeFragment fragment = new HomeFragment();
@@ -123,16 +83,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
-            Menu menu = navigationView.getMenu();
-            MenuItem item=menu.findItem(R.id.nav_register);
-            item.setVisible(true);
-
             //moving to frag
             RegisterFragment fragment = new RegisterFragment();
             trans.replace(R.id.nav_host_fragment_content_main,fragment);
             trans.addToBackStack(null);
             trans.commit();
-
         }
 
 
@@ -144,12 +99,8 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 
                 if(menuID==R.id.nav_home){
-                    HomeFragment fragment =new HomeFragment();
-                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                }
-                else if(menuID ==R.id.nav_newPackage){
-                    NewPackageFragment fragment =new NewPackageFragment();
-                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                        HomeFragment fragment =new HomeFragment();
+                        trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
                 else if(menuID ==R.id.nav_login){
                     LoginFragment fragment =new LoginFragment();
@@ -159,103 +110,10 @@ public class MainActivity extends AppCompatActivity {
                     RegisterFragment fragment =new RegisterFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
-                else if(menuID ==R.id.nav_allPacks){
-                    AllPackagesFragment fragment =new AllPackagesFragment();
-                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                }
                 else if(menuID ==R.id.nav_userViewBookings){
-                    UserViewBookingsFragment fragment =new UserViewBookingsFragment();
-                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                        UserViewBookingsFragment fragment = new UserViewBookingsFragment();
+                        trans.replace(R.id.nav_host_fragment_content_main, fragment);
                 }
-                else if (menuID==R.id.nav_logout){
-                    LoginFragment fragment = new LoginFragment();
-                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                    trans.addToBackStack(null);
-
-                    preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
-                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
-
-                    Menu menu1 = navigationView.getMenu();
-                    MenuItem item1=menu1.findItem(R.id.nav_home);
-                    item1.setVisible(false);
-                    item1=menu1.findItem(R.id.nav_allPacks);
-                    item1.setVisible(false);
-                    item1=menu1.findItem(R.id.nav_userViewBookings);
-                    item1.setVisible(false);
-                    item1=menu1.findItem(R.id.nav_newPackage);
-                    item1.setVisible(false);
-                    item1=menu1.findItem(R.id.nav_logout);
-                    item1.setVisible(false);
-                    item1=menu1.findItem(R.id.nav_register);
-                    item1.setVisible(false);
-
-
-                }
-//                else if(menuID ==R.id.nav_profile){
-//                    ProfileFragment fragment =new ProfileFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
-//                else if(menuID ==R.id.nav_allPosts){
-//                    AllPostsFragment fragment =new AllPostsFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
-//                else if(menuID ==R.id.nav_add){
-//                    AddpostFragment fragment =new AddpostFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
-//                else if(menuID ==R.id.nav_myPosts){
-//                    MyPostsFragment fragment =new MyPostsFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
-//                else if(menuID ==R.id.nav_myJobs){
-//                    MyJobsFragment fragment =new MyJobsFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
-//                else if(menuID ==R.id.nav_floorPrice){
-//                    FloorPriceFragment fragment =new FloorPriceFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
-//                else if(menuID ==R.id.nav_adminViewUsers){
-//                    AdminViewUsersFragment fragment =new AdminViewUsersFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                }
-//
-//                else if (menuID==R.id.nav_exit){
-//                    finish();
-//
-//                }
-//                else if (menuID==R.id.nav_logout){
-//                    LoginFragment fragment = new LoginFragment();
-//                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-//                    trans.addToBackStack(null);
-//
-//                    preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
-//                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_TYPE);
-//                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
-//
-//                    Menu menu1 = navigationView.getMenu();
-//                    MenuItem item1=menu1.findItem(R.id.nav_allPosts);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_home);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_add);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_myPosts);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_myJobs);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_logout);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_register);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_floorPrice);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_profile);
-//                    item1.setVisible(false);
-//                    item1=menu1.findItem(R.id.nav_adminViewUsers);
-//                    item1.setVisible(false);
-//
-//                }
                 trans.addToBackStack(null);
                 trans.commit();
                 drawer.closeDrawer(GravityCompat.START);
@@ -264,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void hide(){
+        Menu menu = navigationView.getMenu();
+        MenuItem item;
+        item=menu.findItem(R.id.nav_login);
+        item.setVisible(false);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
