@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.it2019092_miniproject.MainActivity;
+import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.SharedPreference;
 import com.example.it2019092_miniproject.Temp;
@@ -45,6 +46,9 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -127,7 +131,7 @@ public class HomeFragment extends Fragment {
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                preloader.dismissDialog();
+                preloader.dismissDialog();
                 if (snapshot.exists()) {
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Package pack=postSnapshot.getValue(Package.class);
@@ -138,8 +142,6 @@ public class HomeFragment extends Fragment {
 
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(root.getContext(), RecyclerView.HORIZONTAL, false);
                     recyclerView.setLayoutManager(layoutManager);
-
-//                    recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
                     recyclerView.setAdapter(adapter);
                 }else{
 //                    nodata.setVisibility(View.VISIBLE);
@@ -158,7 +160,7 @@ public class HomeFragment extends Fragment {
         recyclerViewTopPlaces.setLayoutManager(layoutManagerTopPlaces);
 
         placesList.add(new TopPlaces("Brugam Bay Beach","Eastern Province",R.drawable.tp_arugam));
-        placesList.add(new TopPlaces("Bambarakanda Falls","Uva Province.",R.drawable.tp_bfalls));
+        placesList.add(new TopPlaces("Bambarakanda Falls","Uva Province",R.drawable.tp_bfalls));
         placesList.add(new TopPlaces("Sri Dalada Maligawa","Central Province",R.drawable.tp_maligawa));
         placesList.add(new TopPlaces("Royal Botanical Garden -Peradeniya","Central Province",R.drawable.tp_garden));
         placesList.add(new TopPlaces("Sri Pada / Adam's Peak","Sabaragamuwa province",R.drawable.tp_adam));
