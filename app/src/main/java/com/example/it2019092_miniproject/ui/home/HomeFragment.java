@@ -157,11 +157,11 @@ public class HomeFragment extends Fragment {
         RecyclerView.LayoutManager layoutManagerTopPlaces = new LinearLayoutManager(root.getContext(), RecyclerView.VERTICAL, false);
         recyclerViewTopPlaces.setLayoutManager(layoutManagerTopPlaces);
 
-        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
-        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
-        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
-        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
-        placesList.add(new TopPlaces("Kasimir Hill","India","$200 - $500",R.drawable.main));
+        placesList.add(new TopPlaces("Brugam Bay Beach","Eastern Province",R.drawable.tp_arugam));
+        placesList.add(new TopPlaces("Bambarakanda Falls","Uva Province.",R.drawable.tp_bfalls));
+        placesList.add(new TopPlaces("Sri Dalada Maligawa","Central Province",R.drawable.tp_maligawa));
+        placesList.add(new TopPlaces("Royal Botanical Garden -Peradeniya","Central Province",R.drawable.tp_garden));
+        placesList.add(new TopPlaces("Sri Pada / Adam's Peak","Sabaragamuwa province",R.drawable.tp_adam));
 
         recyclerViewTopPlaces.setAdapter(adapterPlaces);
 

@@ -38,9 +38,8 @@ public class TopPlacesAdapter extends RecyclerView.Adapter<TopPlacesAdapter.TopP
     @Override
     public void onBindViewHolder(@NonNull TopPlacesViewHolder holder, int position) {
 
-        holder.countryName.setText(placesList.get(position).getCountryName());
+        holder.province.setText(placesList.get(position).getProvince());
         holder.placeName.setText(placesList.get(position).getPlaceName());
-        holder.price.setText(placesList.get(position).getPrice());
         holder.placeImage.setImageResource(placesList.get(position).getImageUrl());
     }
 
@@ -52,15 +51,14 @@ public class TopPlacesAdapter extends RecyclerView.Adapter<TopPlacesAdapter.TopP
     public static final class TopPlacesViewHolder extends RecyclerView.ViewHolder{
 
         ImageView placeImage;
-        TextView placeName, countryName, price;
+        TextView placeName, province;
 
         public TopPlacesViewHolder(@NonNull View itemView) {
             super(itemView);
 
             placeImage = itemView.findViewById(R.id.place_image);
             placeName = itemView.findViewById(R.id.place_name);
-            countryName = itemView.findViewById(R.id.country_name);
-            price = itemView.findViewById(R.id.place_price);
+            province = itemView.findViewById(R.id.province);
 
         }
     }

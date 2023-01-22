@@ -103,7 +103,9 @@
                 android:id="@+id/top_places_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="281dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp" />
 
             <LinearLayout
                 android:id="@+id/adminLayout"

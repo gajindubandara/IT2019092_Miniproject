@@ -2,8 +2,7 @@ package com.example.it2019092_miniproject.model;
 
 public class TopPlaces {
     String placeName;
-    String countryName;
-    String price;
+    String province;
     Integer imageUrl;
 
     public Integer getImageUrl() {
@@ -14,10 +13,10 @@ public class TopPlaces {
         this.imageUrl = imageUrl;
     }
 
-    public TopPlaces(String placeName, String countryName, String price, Integer imageUrl) {
+    public TopPlaces(String placeName, String province, Integer imageUrl) {
         this.placeName = placeName;
-        this.countryName = countryName;
-        this.price = price;
+        this.province = province;
+
         this.imageUrl = imageUrl;
     }
 
@@ -29,19 +28,12 @@ public class TopPlaces {
         this.placeName = placeName;
     }
 
-    public String getCountryName() {
-        return countryName;
+    public String getProvince() {
+        return province;
     }
 
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
 }
