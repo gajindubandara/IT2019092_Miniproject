@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.it2019092_miniproject.MainActivity;
+import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
@@ -85,6 +86,9 @@ public class EditPackageFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_edit_package, container, false);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
         String packID = Temp.getPackageID();
         Cimg =view.findViewById(R.id.Cimg);
         Date =view.findViewById(R.id.Date);
@@ -103,9 +107,9 @@ public class EditPackageFragment extends Fragment {
         getPack.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange (@NonNull DataSnapshot snapshot){
-//                preloader.dismissDialog();
+                preloader.dismissDialog();
                 if (snapshot.exists()) {
-//                    Toast.makeText(getActivity().getApplicationContext(), packID, Toast.LENGTH_LONG).show();
+
                     dbPrice=snapshot.child(packID).child("price").getValue(String.class);
                     dbDate=snapshot.child(packID).child("date").getValue(String.class);
                     dbPlace=snapshot.child(packID).child("place").getValue(String.class);
@@ -114,9 +118,6 @@ public class EditPackageFragment extends Fragment {
                     dbDes=snapshot.child(packID).child("des").getValue(String.class);
                     imageURiDB=snapshot.child(packID).child("coverImg").getValue(String.class);
 
-
-
-//
                     Date.setText(snapshot.child(packID).child("date").getValue(String.class));
                     Price.setText(snapshot.child(packID).child("price").getValue(String.class));
                     Place.setText(snapshot.child(packID).child("place").getValue(String.class));
@@ -124,15 +125,8 @@ public class EditPackageFragment extends Fragment {
                     NoN.setText(snapshot.child(packID).child("non").getValue(String.class));
                     Des.setText(snapshot.child(packID).child("des").getValue(String.class));
                     imgUrl = snapshot.child(packID).child("coverImg").getValue(String.class);
-//                    Toast.makeText(getActivity().getApplicationContext(), imgUrl, Toast.LENGTH_LONG).show();
-
 
                     Picasso.get().load(imgUrl).placeholder(R.drawable.progress_animation).error(R.drawable.try_later).into(Cimg);
-
-
-
-
-
 
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "no data", Toast.LENGTH_LONG).show();
@@ -244,7 +238,6 @@ public class EditPackageFragment extends Fragment {
 
 
                         Toast.makeText(getActivity().getApplicationContext(),"Nothing to update!",Toast.LENGTH_LONG).show();
-
                         FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
                         EditPackageFragment fragment = new EditPackageFragment();
                         trans.replace(R.id.nav_host_fragment_content_main, fragment);
@@ -260,7 +253,6 @@ public class EditPackageFragment extends Fragment {
                         //Sending data to the database
                         rootNode = FirebaseDatabase.getInstance();
                         referance = rootNode.getReference("Package");
-
 
                         //creating object
                         Package pack=new Package(packID,newPlace,newDate,newPrice,newNon,newNod,newDes,imgUrl);
@@ -304,11 +296,7 @@ public class EditPackageFragment extends Fragment {
                                                             referance = rootNode.getReference("Package");
                                                             referance.child(packID).child("coverImg").setValue(imageRef);
                                                             progressDialog.dismiss();
-//                                                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-//                                                            EditPackageFragment fragment = new EditPackageFragment();
-//                                                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
-//                                                            trans.remove(fragment);
-//                                                            trans.commit();
+
                                                             FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
                                                             HomeFragment fragment = new HomeFragment();
                                                             trans.replace(R.id.nav_host_fragment_content_main, fragment);
@@ -322,11 +310,6 @@ public class EditPackageFragment extends Fragment {
                                                 }
                                             });
                                         }else{
-//                                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-//                                            EditPackageFragment fragment = new EditPackageFragment();
-//                                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
-//                                            trans.remove(fragment);
-//                                            trans.commit();
                                             FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
                                             HomeFragment fragment = new HomeFragment();
                                             trans.replace(R.id.nav_host_fragment_content_main, fragment);
@@ -351,16 +334,9 @@ public class EditPackageFragment extends Fragment {
                         });
 
                     }
-
-
-
-
                 }
-
             }
         });
-
-
         return view;
     }
 

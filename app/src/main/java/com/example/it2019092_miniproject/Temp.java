@@ -3,7 +3,6 @@ package com.example.it2019092_miniproject;
 public class Temp {
     private static String NIC;
     private static String packageID;
-//    private static String viewUserID;
 
 
     public static String getNIC() {
@@ -22,12 +21,5 @@ public class Temp {
         Temp.packageID = packageID;
     }
 
-//    public static String getViewUserID() {
-//        return viewUserID;
-//    }
-//
-//    public static void setViewUserID(String viewUserID) {
-//        Temp.viewUserID = viewUserID;
-//    }
 
 }

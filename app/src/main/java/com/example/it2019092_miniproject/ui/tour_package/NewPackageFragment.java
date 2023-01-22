@@ -212,9 +212,7 @@ public class NewPackageFragment extends Fragment {
                                         progressDialog.show();
                                         progressDialog.setCancelable(false);
                                         StorageReference cRef = storageReference.child("images/" + getKey+"/CoverImg");
-//                                        StorageReference brRef = storageReference.child("images/" + key+"/Bathroom");
                                         uploadTask = cRef.putFile(coverImgUri);
-//                                        uploadTask = brRef.putFile(imgBathroomUri);
                                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override
                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

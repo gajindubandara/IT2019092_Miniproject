@@ -152,7 +152,6 @@ public class UserViewBookingsAdapter extends RecyclerView.Adapter<UserViewBookin
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-//            name =itemView.findViewById(R.id.booking_name);
             place =itemView.findViewById(R.id.place_name);
             passengers =itemView.findViewById(R.id.booking_passengers);
             date =itemView.findViewById(R.id.booking_date);

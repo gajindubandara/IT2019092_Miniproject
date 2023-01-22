@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.model.Package;
 import com.google.firebase.database.DataSnapshot;
@@ -39,20 +40,21 @@ public class AllPackagesFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_all_packages, container, false);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
        noPacks=view.findViewById(R.id.txtNoPackages);
        noPacks.setVisibility(View.GONE);
 
         //set recycle view
         RecyclerView recyclerView = view.findViewById(R.id.rcvAllPackages);
         List<Package> packageList = new ArrayList<>();
-//        SharedPreference preference=new SharedPreference();
-//        String  type=preference.GetString(getActivity().getApplicationContext(), SharedPreference.USER_TYPE);
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Package");
 
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                preloader.dismissDialog();
+                preloader.dismissDialog();
                 if (snapshot.exists()) {
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Package pack=postSnapshot.getValue(Package.class);

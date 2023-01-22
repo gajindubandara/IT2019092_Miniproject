@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.model.Booking;
@@ -43,6 +44,9 @@ public class UserViewBookingsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_user_view_bookings, container, false);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
         noBookings=view.findViewById(R.id.txtNoMyBookings);
         noBookings.setVisibility(View.GONE);
         String userId = Temp.getNIC();
@@ -56,7 +60,7 @@ public class UserViewBookingsFragment extends Fragment {
         getMyBookings.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                preloader.dismissDialog();
+                preloader.dismissDialog();
                 if (snapshot.exists()) {
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Booking booking=postSnapshot.getValue(Booking.class);

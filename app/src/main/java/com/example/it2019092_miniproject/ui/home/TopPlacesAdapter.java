@@ -31,7 +31,6 @@ public class TopPlacesAdapter extends RecyclerView.Adapter<TopPlacesAdapter.TopP
 
         View view = LayoutInflater.from(context).inflate(R.layout.top_places_row_item, parent, false);
 
-        // here we create a recyclerview row item layout file
         return new TopPlacesViewHolder(view);
     }
 

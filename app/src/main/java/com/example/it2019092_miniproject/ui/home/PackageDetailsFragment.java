@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.it2019092_miniproject.MainActivity;
+import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.model.Booking;
@@ -66,6 +67,8 @@ public class PackageDetailsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_package_details, container, false);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
 
         String packID = Temp.getPackageID();
         String userID = Temp.getNIC();
@@ -124,7 +127,7 @@ public class PackageDetailsFragment extends Fragment {
         getPackage.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                preloader.dismissDialog();
+                preloader.dismissDialog();
                 if(snapshot.exists()){
 
                     String Url = snapshot.child(packID).child("coverImg").getValue(String.class);
@@ -158,7 +161,6 @@ public class PackageDetailsFragment extends Fragment {
                     });
                 }
                 else{
-//                    Toast.makeText(getActivity().getApplicationContext(),"no data",Toast.LENGTH_LONG).show();
                     FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
                     PackageDetailsFragment fragment = new PackageDetailsFragment();
                     trans.replace(R.id.nav_host_fragment_content_main, fragment);
@@ -273,7 +275,8 @@ public class PackageDetailsFragment extends Fragment {
 
                 if (Temp.getNIC() == null) {
                     Toast.makeText(getActivity().getApplicationContext(), "Please Login First", Toast.LENGTH_LONG).show();
-                } else{
+                }
+                else{
                     try {
                         int value = Integer.valueOf(nop.getText().toString());
                         if (value > 0) {
@@ -297,10 +300,7 @@ public class PackageDetailsFragment extends Fragment {
                     } catch (Exception ex) {
                         Toast.makeText(getActivity().getApplicationContext(), "Select a valid number", Toast.LENGTH_LONG).show();
                     }
-            }
-
-
-
+                }
             }
         });
 

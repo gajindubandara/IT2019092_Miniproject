@@ -143,8 +143,6 @@ public class HomeFragment extends Fragment {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(root.getContext(), RecyclerView.HORIZONTAL, false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
-                }else{
-//                    nodata.setVisibility(View.VISIBLE);
                 }
             }
             @Override
@@ -167,8 +165,6 @@ public class HomeFragment extends Fragment {
 
         recyclerViewTopPlaces.setAdapter(adapterPlaces);
 
-//        final TextView textView = binding.textHome;
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

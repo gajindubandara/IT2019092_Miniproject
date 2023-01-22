@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.it2019092_miniproject.PreLoader;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.Temp;
 import com.example.it2019092_miniproject.model.Booking;
@@ -43,6 +44,9 @@ public class ViewBookingsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_view_bookings, container, false);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
         noBookings=view.findViewById(R.id.txtNoBookings);
         noBookings.setVisibility(View.GONE);
         String packId = Temp.getPackageID();
@@ -57,20 +61,16 @@ public class ViewBookingsFragment extends Fragment {
        getPackageBookings.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                preloader.dismissDialog();
+                preloader.dismissDialog();
                 if (snapshot.exists()) {
-//                    Toast.makeText(getContext(),"found",Toast.LENGTH_LONG).show();
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Booking booking=postSnapshot.getValue(Booking.class);
                         bookingList.add(booking);
                     }
-//
+
                     ViewBookingsAdapter adapter= new ViewBookingsAdapter(bookingList,fdb);
-//
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
                     recyclerView.setLayoutManager(layoutManager);
-
-//                    recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
                     recyclerView.setAdapter(adapter);
                 }else{
                     noBookings.setVisibility(View.VISIBLE);
@@ -80,8 +80,6 @@ public class ViewBookingsFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
-
 
         return view;
     }

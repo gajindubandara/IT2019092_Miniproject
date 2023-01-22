@@ -31,8 +31,6 @@ import java.util.List;
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
     FirebaseDatabase fdb;
     List<Package> packageList;
-    DatabaseReference referance;
-    FirebaseDatabase rootNode;
     private Context context;
 
 
@@ -70,7 +68,6 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
                     centerCrop().error(R.drawable.try_later).into(holder.coverImg);
         }
 
-//        Picasso.with(context).load(url)into(imageView);
         holder.packDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

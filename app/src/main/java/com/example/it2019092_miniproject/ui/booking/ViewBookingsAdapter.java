@@ -65,7 +65,6 @@ public class ViewBookingsAdapter extends RecyclerView.Adapter<ViewBookingsAdapte
         getPackage.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                preloader.dismissDialog();
                 if(snapshot.exists()){
                     holder.name.setText(snapshot.child(userID).child("name").getValue(String.class));
                     holder.no.setText(snapshot.child(userID).child("number").getValue(String.class));
