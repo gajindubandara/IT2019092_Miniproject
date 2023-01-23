@@ -49,7 +49,7 @@ public class PackageDetailsFragment extends Fragment {
     private PackageDetailsViewModel mViewModel;
     TextView place,price,des,date,non,nod;
     ImageView coverImg;
-    CardView book,edit,del;
+    CardView book;
     DatabaseReference referance;
     FirebaseDatabase rootNode;
     EditText nop;
@@ -78,27 +78,14 @@ public class PackageDetailsFragment extends Fragment {
         date =view.findViewById(R.id.packDate);
         des =view.findViewById(R.id.packDes);
         book=view.findViewById(R.id.btnBook);
-        edit=view.findViewById(R.id.btnEdit);
         non=view.findViewById(R.id.packNon);
         nod=view.findViewById(R.id.packNod);
-        del=view.findViewById(R.id.btnDel);
         nop=view.findViewById(R.id.nop);
         less=view.findViewById(R.id.btnLess);
         more=view.findViewById(R.id.btnMore);
         nop.setText("1");
-        del.setVisibility(View.GONE);
-        edit.setVisibility(View.GONE);
 
 
-        if(Temp.getNIC()!=null){
-            if (userID.equals("0000")){
-                del.setVisibility(View.VISIBLE);
-                edit.setVisibility(View.VISIBLE);
-            }else{
-                del.setVisibility(View.GONE);
-                edit.setVisibility(View.GONE);
-            }
-        }
 
         more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,19 +133,7 @@ public class PackageDetailsFragment extends Fragment {
                     non.setText(snapshot.child(packID).child("non").getValue(String.class)+" Nights");
                     nod.setText(snapshot.child(packID).child("nod").getValue(String.class)+" Days");
 
-                    edit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
 
-                            FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-                            EditPackageFragment fragment = new EditPackageFragment();
-                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                            trans.addToBackStack(null);
-                            trans.detach(fragment);
-                            trans.attach(fragment);
-                            trans.commit();
-                        }
-                    });
                 }
                 else{
                     FragmentTransaction trans =((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
@@ -172,99 +147,6 @@ public class PackageDetailsFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
-        del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder =new AlertDialog.Builder(del.getContext());
-                builder.setMessage("Are you sure,You want to remove the package").setTitle("Confirm Delete").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        rootNode = FirebaseDatabase.getInstance();
-                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Booking");
-                        Query getBookings = rootRef.orderByChild("packageId").equalTo(packID);
-                        getBookings.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()) {
-                                    if(check==false) {
-                                        AlertDialog.Builder builder2 = new AlertDialog.Builder(del.getContext());
-                                        builder2.setMessage("There are booking for this package!,Do you want to remove the package").setTitle("Caution!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                rootNode = FirebaseDatabase.getInstance();
-                                                referance = rootNode.getReference("Package");
-                                                referance.child(packID).removeValue();
-
-                                                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                                                String Cimg = "images/" + packID + "/CoverImg";
-                                                storageReference.child(Cimg).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                    }
-                                                });
-
-                                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                                    Booking booking=postSnapshot.getValue(Booking.class);
-                                                    if (booking.getPackageId().equals(packID)) {
-                                                        rootRef.child(booking.getID()).removeValue();
-                                                    }
-                                                }
-
-                                                Toast.makeText((MainActivity) v.getContext(), "Package Removed!", Toast.LENGTH_LONG).show();
-                                                FragmentTransaction trans = ((MainActivity) v.getContext()).getSupportFragmentManager().beginTransaction();
-                                                HomeFragment fragment = new HomeFragment();
-                                                trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                                                trans.addToBackStack(null);
-                                                trans.commit();
-
-                                            }
-                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        });
-                                        AlertDialog dialog2 = builder2.create();
-                                        dialog2.show();
-                                        check = true;
-                                    }
-
-                                }else{
-                                    rootNode = FirebaseDatabase.getInstance();
-                                    referance = rootNode.getReference("Package");
-                                    referance.child(packID).removeValue();
-
-                                    StorageReference storageReference= FirebaseStorage.getInstance().getReference();
-                                    String Cimg = "images/" + packID+"/CoverImg";
-                                    storageReference.child(Cimg).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                        }
-                                    });
-
-                                    Toast.makeText((MainActivity)v.getContext(),"Package Removed!",Toast.LENGTH_LONG).show();
-                                    FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
-                                    HomeFragment fragment = new HomeFragment();
-                                    trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                                    trans.addToBackStack(null);
-                                    trans.commit();
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-                    }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
             }
         });
 

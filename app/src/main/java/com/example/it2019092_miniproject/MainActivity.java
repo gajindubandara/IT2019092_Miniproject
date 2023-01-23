@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         if (register){
             //check login
             if(status) {
-                hide();
+//                hide();
 
                 //moving to frag
                 HomeFragment fragment = new HomeFragment();
@@ -122,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void hide(){
-        Menu menu = navigationView.getMenu();
-        MenuItem item;
-        item=menu.findItem(R.id.nav_login);
-        item.setVisible(false);
-    }
+//    public void hide(){
+//        Menu menu = navigationView.getMenu();
+//        MenuItem item;
+//        item=menu.findItem(R.id.nav_login);
+//        item.setVisible(false);
+//    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

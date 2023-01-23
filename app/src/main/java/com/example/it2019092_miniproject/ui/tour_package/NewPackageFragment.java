@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.it2019092_miniproject.MainActivity;
 import com.example.it2019092_miniproject.R;
 import com.example.it2019092_miniproject.ui.home.HomeFragment;
 import com.example.it2019092_miniproject.model.Package;
@@ -70,6 +71,7 @@ public class NewPackageFragment extends Fragment {
     int month;
     int dayOfMonth;
     Calendar calendar;
+    boolean check=false;
 
 
     public static NewPackageFragment newInstance() {
@@ -170,10 +172,10 @@ public class NewPackageFragment extends Fragment {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                check = true;
+                if (check) {
                 //Validation
-                if (checkValid()){
+                if (checkValid()) {
                     String date = Date.getText().toString();
                     String place = Place.getText().toString();
                     String non = NoN.getText().toString();
@@ -185,33 +187,29 @@ public class NewPackageFragment extends Fragment {
                     //Sending data to the database
                     rootNode = FirebaseDatabase.getInstance();
                     referance = rootNode.getReference("Package");
-                    String key= referance.push().getKey();
+                    String key = referance.push().getKey();
 
                     //creating object
-                    Package pack=new Package(key,place,date,price,non,nod,des,imageRefC);
-
+                    Package pack = new Package(key, place, date, price, non, nod, des, imageRefC);
                     referance.child(key).setValue(pack);
-
 
                     //getting the key
                     rootNode = FirebaseDatabase.getInstance();
                     referance = rootNode.getReference("Package");
                     referance.limitToLast(1).addChildEventListener(new ChildEventListener() {
                         @Override
-                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s)
-                        {
-                            if (dataSnapshot.exists())
-                            {
+                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                            if (dataSnapshot.exists()) {
                                 String getKey = dataSnapshot.getKey();
                                 // uploading image
                                 try {
                                     storageReference = FirebaseStorage.getInstance().getReference();
-                                    if (coverImgUri != null) {
+                                    if (coverImgUri != null && check==true) {
                                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                                         progressDialog.setTitle("Creating Package...");
                                         progressDialog.show();
                                         progressDialog.setCancelable(false);
-                                        StorageReference cRef = storageReference.child("images/" + getKey+"/CoverImg");
+                                        StorageReference cRef = storageReference.child("images/" + getKey + "/CoverImg");
                                         uploadTask = cRef.putFile(coverImgUri);
                                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override
@@ -228,35 +226,45 @@ public class NewPackageFragment extends Fragment {
                                                         referance.child(key).child("coverImg").setValue(imageRefC);
                                                         progressDialog.dismiss();
 
-                                                        Toast.makeText(getActivity().getApplicationContext(),"Package Created!",Toast.LENGTH_LONG).show();
-                                                        FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                                                        Toast.makeText(getActivity().getApplicationContext(), "Package Created!", Toast.LENGTH_LONG).show();
+                                                        FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
                                                         HomeFragment fragment = new HomeFragment();
                                                         trans.replace(R.id.nav_host_fragment_content_main, fragment);
                                                         trans.addToBackStack(null);
                                                         trans.detach(fragment);
                                                         trans.attach(fragment);
                                                         trans.commit();
+                                                        check=false;
                                                     }
                                                 });
                                             }
                                         });
                                     }
-                                }catch(Exception ex){
+                                } catch (Exception ex) {
                                     throw ex;
                                 }
                             }
                         }
+
                         @Override
-                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) { }
+                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
+                        }
+
                         @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        }
+
                         @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @androidx.annotation.Nullable String previousChilddemo) { }
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @androidx.annotation.Nullable String previousChilddemo) {
+                        }
+
                         @Override
-                        public void onCancelled(@NonNull DatabaseError error) { }
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
                     });
 
                 }
+            }
             }
         });
 
