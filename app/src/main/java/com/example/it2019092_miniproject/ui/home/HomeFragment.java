@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+    TextView noPacks;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class HomeFragment extends Fragment {
         logout=root.findViewById(R.id.btnLogout);
         adminLayout.setVisibility(View.GONE);
         logout.setVisibility(View.GONE);
+        noPacks=root.findViewById(R.id.txtNoPackages);
+        noPacks.setVisibility(View.GONE);
 
 
         if(Temp.getNIC()!=null){
@@ -143,6 +146,8 @@ public class HomeFragment extends Fragment {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(root.getContext(), RecyclerView.HORIZONTAL, false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
+                }else{
+                    noPacks.setVisibility(View.VISIBLE);
                 }
             }
             @Override

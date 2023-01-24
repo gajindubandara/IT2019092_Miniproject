@@ -188,53 +188,6 @@ public class ViewBookingsFragment extends Fragment {
             }
         });
 
-//        del.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final ProgressDialog progressDialog = new ProgressDialog(getContext());
-//                progressDialog.setTitle("Removing Package...");
-//                progressDialog.setCancelable(false);
-//
-//                AlertDialog.Builder builder =new AlertDialog.Builder(getContext());
-//                builder.setMessage("Are you sure,You want to remove the post").setTitle("Confirm Delete").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                        progressDialog.show();
-//                        rootNode = FirebaseDatabase.getInstance();
-//                        referance = rootNode.getReference("Package");
-//                        referance.child(packId).removeValue();
-//
-//
-//                        StorageReference storageReference= FirebaseStorage.getInstance().getReference();
-//                        String Cimg = "images/" + packId+"/CoverImg";
-//                        storageReference.child(Cimg).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                progressDialog.dismiss();
-//                            }
-//                        });
-//
-//
-//                        Toast.makeText((MainActivity)v.getContext(),"Package Removed!",Toast.LENGTH_LONG).show();
-//                        FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
-//                        HomeFragment fragment = new HomeFragment();
-//                        trans.replace(R.id.nav_host_fragment_content_main, fragment);
-//                        trans.addToBackStack(null);
-//                        trans.commit();
-//
-//                    }
-//                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        //if no action
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-//        });
-
         //set recycle view
         RecyclerView recyclerView = view.findViewById(R.id.rcvUserBookings);
         List<Booking> bookingList = new ArrayList<>();
